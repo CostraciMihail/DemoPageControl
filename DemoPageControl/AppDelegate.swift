@@ -16,13 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        
-        var pageControl = UIPageControl()
-        pageControl.pageIndicatorTintColor = UIColor.lightGray
-        pageControl.currentPageIndicatorTintColor = UIColor.black
-        pageControl.backgroundColor = UIColor.white
-        
-        
+//  UNCOMMENT to add root viewController programatically without StoryBoard
+//
 //        let rootVC = ViewController(transitionStyle: .scroll,
 //                                    navigationOrientation: .horizontal,
 //                                    options: nil)

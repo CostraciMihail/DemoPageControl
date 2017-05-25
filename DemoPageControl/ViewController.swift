@@ -8,30 +8,32 @@
 
 import UIKit
 
+
+let screenBounds = UIScreen.main.bounds
+
 class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
     var myControllers = [UIViewController]()
-    var currentVC: Int = 0
+    var currentIndex: Int?
+    var pendingIndex: Int?
     
     var firstVC = FirstViewController()
     var secondVC = SecondViewController()
     var thirdVC = ThirdViewController()
+    private var pageControl = UIPageControl()
         
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         self.delegate = self
-        self.dataSource = self        
+        self.dataSource = self
         
-        var pageControl = UIPageControl()
-        
-        self.currentVC = 1
+        self.currentIndex = 1
         myControllers.append(firstVC)
         myControllers.append(secondVC)
         myControllers.append(thirdVC)
 
-        
         self.setViewControllers([secondVC],
                                 direction: .forward,
                                 animated: true) { (finished) in
@@ -40,8 +42,21 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
                                     
         }
         
+        self.addPageControl()
+        
     }
 
+    func addPageControl() {
+        
+        pageControl = UIPageControl(frame: CGRect(x: screenBounds.size.width/2 - 50, y: screenBounds.size.height - 60, width: 100, height: 40))
+        pageControl.pageIndicatorTintColor = UIColor.lightGray
+        pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.backgroundColor = UIColor.white
+        pageControl.numberOfPages = 3
+        pageControl.currentPage = 1
+        self.view.addSubview(pageControl)
+        self.view.bringSubview(toFront: pageControl)
+    }
     
     
     func pageViewController(_ pageViewController: UIPageViewController,
@@ -81,16 +96,33 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
             return myControllers[index + 1]
         }
     }
+
     
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
-        return myControllers.count
+        pendingIndex = myControllers.index(of: pendingViewControllers.first!)
     }
     
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int{
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-        return self.currentVC
+        if completed {
+            currentIndex = pendingIndex
+            if let index = currentIndex {
+                pageControl.currentPage = index
+            }
+        }
     }
+    
+    //uncoment to add defaul pagecontrol of UIPageViewController
+//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+//        
+//        return myControllers.count
+//    }
+//    
+//    func presentationIndex(for pageViewController: UIPageViewController) -> Int{
+//        
+//        return self.currentVC
+//    }
     
 }
 
