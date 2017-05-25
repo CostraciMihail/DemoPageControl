@@ -24,21 +24,19 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
         self.delegate = self
         self.dataSource = self        
         
+        var pageControl = UIPageControl()
         
         self.currentVC = 1
         myControllers.append(firstVC)
         myControllers.append(secondVC)
         myControllers.append(thirdVC)
-        
-        
-//        myControllers.a
-        
+
         
         self.setViewControllers([secondVC],
                                 direction: .forward,
                                 animated: true) { (finished) in
                                     
-                                    print("finished")
+                                    print("animated finished")
                                     
         }
         
@@ -50,7 +48,6 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
                                    viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         print(viewController)
-        
         
         print("viewControllerBefore index: \(String(describing: myControllers.index(of: viewController)))" )
         
@@ -76,7 +73,6 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
         guard let index = myControllers.index(of: viewController) else {
             return nil
         }
-
         
         if index == self.myControllers.count - 1 {
             return nil
@@ -84,8 +80,6 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
             
             return myControllers[index + 1]
         }
-        
-        
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
@@ -99,8 +93,6 @@ class ViewController: UIPageViewController, UIPageViewControllerDelegate, UIPage
     }
     
 }
-
-
 
 
 
